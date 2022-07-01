@@ -23,10 +23,14 @@ function mapStyle(style) {
         case "str":
             return 'mapbox/streets-v11';
         case "outdoors":
+        case "outd":
+        case "out":
             return 'mapbox/outdoors-v11';
         case "light":
+        case "lt":
             return 'mapbox/light-v10';
         case "dark":
+        case "dk":
             return 'mapbox/dark-v10';
         case "satellite":
         case "sat":
@@ -56,4 +60,35 @@ function makeTileLayer(style) {
         // zoomOffset: -1,
         accessToken: API_KEY
     });
+}
+
+// Determines the radius of the earthquake marker based on its magnitude.
+// Earthquakes with a magnitude of 0 will be plotted with a radius of 1.
+function getRadius(magnitude) {
+    if (magnitude === 0) {
+      return 1;
+    }
+    return magnitude * 4;
+}
+
+function colorByMagnitude(magnitude, nonZeroColor, zeroColor) {
+    if (magnitude == 0) {
+        return zeroColor;
+    }
+    return nonZeroColor;
+}
+
+function styleOptions(feature) {
+    return {
+        radius: getRadius(feature.properties.mag),
+        // stroke: true,
+        opacity: 1,
+        // color: "#000000",
+        // color: "black",
+        color: colorByMagnitude(feature.properties.mag, "black", "red"),
+        weight: 0.5,
+        // fillColor: "#ffae42",
+        fillColor: colorByMagnitude(feature.properties.mag, "#ffae42", "red"),
+        fillOpacity: 1,
+    };
 }
