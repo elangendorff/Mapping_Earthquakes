@@ -71,16 +71,6 @@ function makeTileLayer(style) {
     });
 }
 
-// Determines the radius of the earthquake marker based on its magnitude.
-// Earthquakes with a magnitude of 0 will be plotted with a radius of 1.
-function getRadius(magnitude) {
-    return magnitude == 0 ? 1 : magnitude * 4;
-}
-
-function colorByMagnitude(magnitude, nonZeroColor, zeroColor) {
-    return magnitude == 0 ? zeroColor : nonZeroColor;
-}
-
 // Array to hold color values based on earthquake magnitude
 const magColors = [
     // Color names from https://www.color-name.com/
@@ -97,30 +87,27 @@ const magColors = [
 function styleOptions2(feature) {
     let magnitude = feature.properties.mag
     return {
-        radius: getRadius(magnitude),
+        // Earthquakes with a magnitude of 0 will be plotted with a radius of 1.
+        radius: magnitude == 0 ? 1 : magnitude * 4,
         // stroke: true,
         opacity: 1,
         weight: 0.5,
-        // color: "#000000",
-        // color: "black",
-        color: colorByMagnitude(magnitude, "black", "red"),
+        color: magnitude == 0 ? "red" : "black",
         // fillColor: "#ffae42",
         fillOpacity: 1,
-        fillColor: colorByMagnitude(magnitude, "#ffae42", "red")
+        fillColor: magnitude == 0 ? "red" : "#ffae42"
     };
 }
 
 function styleOptions3(feature) {
     let magnitude = feature.properties.mag
     return {
-        radius: getRadius(magnitude),
+        // Earthquakes with a magnitude of 0 will be plotted with a radius of 1.
+        radius: magnitude == 0 ? 1 : magnitude * 4,
         // stroke: true,
         opacity: 1,
         weight: 0.5,
-        // color: "#000000",
-        // color: "black",
-        color: colorByMagnitude(magnitude, "black", "red"),
-        // fillColor: "#ffae42",
+        color: magnitude == 0 ? "red" : "black",
         fillOpacity: 1,
         fillColor: magColors[ magnitude > 6 ? 6 : Math.ceil(magnitude) ]
     };
