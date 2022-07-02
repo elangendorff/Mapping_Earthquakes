@@ -1,20 +1,11 @@
-// // Generic tile layer
-// let generic = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-//     maxZoom: 18,
-//     // Mapbox styles. See https://docs.mapbox.com/api/maps/styles/
-//     id: 'mapbox/streets-v11',
-//     // id: 'mapbox/outdoors-v11',
-//     // id: 'mapbox/light-v10',
-//     // id: 'mapbox/dark-v10',
-//     // id: 'mapbox/satellite-v9',
-//     // id: 'mapbox/satellite-streets-v11',
-//     // id: 'mapbox/navigation-day-v1',
-//     // id: 'mapbox/navigation-night-v1',
-//     // tileSize: 512,
-//     // zoomOffset: -1,
-//     accessToken: API_KEY
-// });
+// Past-7-days earthquake data.
+const quakeData = {
+    "all":          "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson",
+    "m1.0plus":     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson",
+    "m2.5plus":     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson",
+    "m4.5plus":     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson",
+    "significant":  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
+}
 
 function mapStyle(style) {
     // Mapbox styles. See https://docs.mapbox.com/api/maps/styles/
@@ -51,6 +42,24 @@ function mapStyle(style) {
     }
 }
 
+// // Generic tile layer
+// let generic = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+//     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+//     maxZoom: 18,
+//     // Mapbox styles. See https://docs.mapbox.com/api/maps/styles/
+//     id: 'mapbox/streets-v11',
+//     // id: 'mapbox/outdoors-v11',
+//     // id: 'mapbox/light-v10',
+//     // id: 'mapbox/dark-v10',
+//     // id: 'mapbox/satellite-v9',
+//     // id: 'mapbox/satellite-streets-v11',
+//     // id: 'mapbox/navigation-day-v1',
+//     // id: 'mapbox/navigation-night-v1',
+//     // tileSize: 512,
+//     // zoomOffset: -1,
+//     accessToken: API_KEY
+// });
+
 function makeTileLayer(style) {
     return L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -72,9 +81,10 @@ function colorByMagnitude(magnitude, nonZeroColor, zeroColor) {
     return magnitude == 0 ? zeroColor : nonZeroColor;
 }
 
+// Array to hold color values based on earthquake magnitude
 const magColors = [
     // Color names from https://www.color-name.com/
-    // They range from green to red
+    // They range from green(ish) to (mostly) red
     "dimgray",
     "#98ee00", // Mango Green
     "#d4ee00", // Volt

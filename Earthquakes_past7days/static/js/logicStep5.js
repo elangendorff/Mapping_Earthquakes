@@ -1,6 +1,6 @@
-// Create tile layers for map background
-// Custom functions are defined in `functions.js`.
+// Constants and custom functions are defined in `resources.js`.
 
+// Create tile layers for map background
 let streets = makeTileLayer("streets");
 let satelliteStreets = makeTileLayer("satellite-streets");
 
@@ -28,15 +28,6 @@ let map = L.map("mapid", {
 
 // Pass map layers into layers control.
 L.control.layers(baseMaps, overlays, {collapsed: false}).addTo(map);
-
-// Accessing past-7-days earthquake data.
-const quakeData = {
-    "all":          "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson",
-    "m1.0plus":     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_week.geojson",
-    "m2.5plus":     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.geojson",
-    "m4.5plus":     "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_week.geojson",
-    "significant":  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_week.geojson"
-}
 
 // Grab GeoJSON data.
 d3.json(quakeData["all"]).then(function(data) {
