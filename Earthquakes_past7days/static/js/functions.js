@@ -78,17 +78,53 @@ function colorByMagnitude(magnitude, nonZeroColor, zeroColor) {
     return nonZeroColor;
 }
 
-function styleOptions(feature) {
+function fillColorByMagnitude(magnitude) {
+    // Color names from https://www.color-name.com/
+    // They range from green to red
+    switch (Math.ceil(magnitude)) {
+        case 0:
+            return "dimgray";
+        case 1:
+            return "#98ee00";   // Mango Green
+        case 2:
+            return "#d4ee00";   // Volt
+        case 3:
+            return "#eecc00";   // Yellow (Munsell)
+        case 4:
+            return "#ee9c00";   // Orange (RYB)
+        case 5:
+            return "#ea822c";   // Cadmium Orange
+        default:
+            return "#ea2c2c";   // Permanent Geranium Lake
+    }
+}
+
+function styleOptions2(feature) {
     return {
         radius: getRadius(feature.properties.mag),
         // stroke: true,
         opacity: 1,
+        weight: 0.5,
         // color: "#000000",
         // color: "black",
         color: colorByMagnitude(feature.properties.mag, "black", "red"),
-        weight: 0.5,
         // fillColor: "#ffae42",
-        fillColor: colorByMagnitude(feature.properties.mag, "#ffae42", "red"),
         fillOpacity: 1,
+        fillColorByMagnitude: colorByMagnitude(feature.properties.mag, "#ffae42", "red")
+    };
+}
+
+function styleOptions3(feature) {
+    return {
+        radius: getRadius(feature.properties.mag),
+        // stroke: true,
+        opacity: 1,
+        weight: 0.5,
+        // color: "#000000",
+        // color: "black",
+        color: colorByMagnitude(feature.properties.mag, "black", "red"),
+        // fillColor: "#ffae42",
+        fillOpacity: 1,
+        fillColor: fillColorByMagnitude(feature.properties.mag)
     };
 }

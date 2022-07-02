@@ -40,10 +40,10 @@ d3.json(quakeData["all"]).then(function(data) {
             // console.log(feature);
             return L.circleMarker(latlng);
         },
-        style: styleOptions2,
-        // onEachFeature: function(feature, layer) {
-        //     layer.bindPopup(`<h2>Neighborhood: ${feature.properties.AREA_NAME}`);
-        // }
+        style: styleOptions3,
+        onEachFeature: function(feature, layer) {
+            layer.bindPopup(`Magnitude: ${feature.properties.mag}<br>Location: ${feature.properties.place}`);
+        }
     }).addTo(map);
 });
 
