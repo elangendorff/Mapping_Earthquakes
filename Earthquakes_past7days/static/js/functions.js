@@ -65,66 +65,53 @@ function makeTileLayer(style) {
 // Determines the radius of the earthquake marker based on its magnitude.
 // Earthquakes with a magnitude of 0 will be plotted with a radius of 1.
 function getRadius(magnitude) {
-    if (magnitude === 0) {
-      return 1;
-    }
-    return magnitude * 4;
+    return magnitude == 0 ? 1 : magnitude * 4;
 }
 
 function colorByMagnitude(magnitude, nonZeroColor, zeroColor) {
-    if (magnitude == 0) {
-        return zeroColor;
-    }
-    return nonZeroColor;
+    return magnitude == 0 ? zeroColor : nonZeroColor;
 }
 
-function fillColorByMagnitude(magnitude) {
+const magColors = [
     // Color names from https://www.color-name.com/
     // They range from green to red
-    switch (Math.ceil(magnitude)) {
-        case 0:
-            return "dimgray";
-        case 1:
-            return "#98ee00";   // Mango Green
-        case 2:
-            return "#d4ee00";   // Volt
-        case 3:
-            return "#eecc00";   // Yellow (Munsell)
-        case 4:
-            return "#ee9c00";   // Orange (RYB)
-        case 5:
-            return "#ea822c";   // Cadmium Orange
-        default:
-            return "#ea2c2c";   // Permanent Geranium Lake
-    }
-}
+    "dimgray",
+    "#98ee00", // Mango Green
+    "#d4ee00", // Volt
+    "#eecc00", // Yellow (Munsell)
+    "#ee9c00", // Orange (RYB)
+    "#ea822c", // Cadmium Orange
+    "#ea2c2c"  // Permanent Geranium Lake
+]
 
 function styleOptions2(feature) {
+    let magnitude = feature.properties.mag
     return {
-        radius: getRadius(feature.properties.mag),
+        radius: getRadius(magnitude),
         // stroke: true,
         opacity: 1,
         weight: 0.5,
         // color: "#000000",
         // color: "black",
-        color: colorByMagnitude(feature.properties.mag, "black", "red"),
+        color: colorByMagnitude(magnitude, "black", "red"),
         // fillColor: "#ffae42",
         fillOpacity: 1,
-        fillColorByMagnitude: colorByMagnitude(feature.properties.mag, "#ffae42", "red")
+        fillColor: colorByMagnitude(magnitude, "#ffae42", "red")
     };
 }
 
 function styleOptions3(feature) {
+    let magnitude = feature.properties.mag
     return {
-        radius: getRadius(feature.properties.mag),
+        radius: getRadius(magnitude),
         // stroke: true,
         opacity: 1,
         weight: 0.5,
         // color: "#000000",
         // color: "black",
-        color: colorByMagnitude(feature.properties.mag, "black", "red"),
+        color: colorByMagnitude(magnitude, "black", "red"),
         // fillColor: "#ffae42",
         fillOpacity: 1,
-        fillColor: fillColorByMagnitude(feature.properties.mag)
+        fillColor: magColors[ magnitude > 6 ? 6 : Math.ceil(magnitude) ]
     };
 }
